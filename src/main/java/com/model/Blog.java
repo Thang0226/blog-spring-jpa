@@ -2,36 +2,37 @@ package com.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "blog")
 public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String title;
     private String content;
     private String author;
     private String imageFile;
-    private LocalDate date;
+    private LocalDateTime time;
 
     public Blog() {
     }
 
-    public Blog(int id, String title, String content, String author, String imageFile, LocalDate date) {
+    public Blog(Long id, String title, String content, String author, String imageFile, LocalDateTime time) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.author = author;
         this.imageFile = imageFile;
-        this.date = date;
+        this.time = time;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -67,11 +68,11 @@ public class Blog {
         this.imageFile = imageFile;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getTime() {
+        return time;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setTime(LocalDateTime time) {
+        this.time = time;
     }
 }

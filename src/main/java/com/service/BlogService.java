@@ -18,7 +18,7 @@ public class BlogService implements IBlogService {
     }
 
     @Override
-    public Blog findById(int id) {
+    public Blog findById(Long id) {
         return blogRepository.findById(id);
     }
 
@@ -28,7 +28,7 @@ public class BlogService implements IBlogService {
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(Long id) {
         blogRepository.remove(id);
     }
 }

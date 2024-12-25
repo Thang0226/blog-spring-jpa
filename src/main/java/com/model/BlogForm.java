@@ -5,30 +5,30 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 
 public class BlogForm {
-    private int id;
+    private Long id;
     private String title;
     private String content;
     private String author;
     private MultipartFile imageFile;
-    private String date;
+    private String time;
 
     public BlogForm() {
     }
 
-    public BlogForm(int id, String title, String content, String author, MultipartFile imageFile, String date) {
+    public BlogForm(Long id, String title, String content, String author, MultipartFile imageFile, String time) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.author = author;
         this.imageFile = imageFile;
-        this.date = date;
+        this.time = time;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,11 +64,11 @@ public class BlogForm {
         this.imageFile = imageFile;
     }
 
-    public String getDate() {
-        return date;
+    public String getTime() {
+        return time;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setTime(String time) {
+        this.time = time;
     }
 }

@@ -23,7 +23,7 @@ public class BlogRepository implements IBlogRepository {
     }
 
     @Override
-    public Blog findById(int id) {
+    public Blog findById(Long id) {
         String hql = "from Blog b where b.id = " + id;
         TypedQuery<Blog> query = em.createQuery(hql, Blog.class);
         try {
@@ -35,7 +35,7 @@ public class BlogRepository implements IBlogRepository {
 
     @Override
     public void save(Blog blog) {
-        if (blog.getId() != 0) {
+        if (blog.getId() != null && blog.getId() != 0) {
             em.merge(blog);
         } else {
             em.persist(blog);
@@ -43,7 +43,7 @@ public class BlogRepository implements IBlogRepository {
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(Long id) {
         Blog blog = findById(id);
         if (blog != null) {
             em.remove(blog);
