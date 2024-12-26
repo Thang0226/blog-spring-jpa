@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/blogs")
@@ -29,7 +30,7 @@ public class BlogController {
 
     @GetMapping
     public String listBlogs(Model model) {
-        List<Blog> blogs = blogService.findAll();
+        Iterable<Blog> blogs = blogService.findAll();
         model.addAttribute("blogs", blogs);
         return "list";
     }
@@ -63,14 +64,15 @@ public class BlogController {
 
     @GetMapping("/{id}/view")
     public String showView(@PathVariable Long id, Model model) {
-        Blog blog = blogService.findById(id);
-        model.addAttribute("blog", blog);
+        Optional<Blog> blog = blogService.findById(id);
+        model.addAttribute("blog", blog.get());
         return "view";
     }
 
     @GetMapping("/{id}/update")
     public String showUpdateForm(@PathVariable Long id, Model model) {
-        Blog blog = blogService.findById(id);
+        Optional<Blog> blogOptional = blogService.findById(id);
+        Blog blog = blogOptional.get();
         model.addAttribute("image", blog.getImageFile());
         BlogForm blogForm = new BlogForm(id, blog.getTitle(), blog.getContent(), blog.getAuthor(),
                 null, blog.getTime().toString());
@@ -80,7 +82,8 @@ public class BlogController {
 
     @PostMapping("/update")
     public String updateBlog(BlogForm blogForm, RedirectAttributes redirectAttributes) {
-        Blog blog = blogService.findById(blogForm.getId());
+        Optional<Blog> blogOptional = blogService.findById(blogForm.getId());
+        Blog blog = blogOptional.get();
         MultipartFile multipartFile = blogForm.getImageFile();
         if (!Objects.requireNonNull(multipartFile.getOriginalFilename()).isEmpty()) {
             String fileName = multipartFile.getOriginalFilename();
