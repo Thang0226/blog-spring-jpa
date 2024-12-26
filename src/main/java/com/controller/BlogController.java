@@ -7,6 +7,10 @@ import com.service.IBlogService;
 import com.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -32,8 +36,9 @@ public class BlogController {
     private ICategoryService categoryService;
 
     @GetMapping
-    public String listBlogs(Model model) {
-        Iterable<Blog> blogs = blogService.findAll();
+    public String listBlogs(@PageableDefault(size = 3, sort = "time", direction = Sort.Direction.ASC) Pageable pageable,
+                            Model model) {
+        Page<Blog> blogs = blogService.findAll(pageable);
         model.addAttribute("blogs", blogs);
         return "blog/list";
     }
