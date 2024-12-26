@@ -7,13 +7,13 @@
 <h2>Add New Blog</h2>
 
 <p>
-    <a th:href="@{/blog}">
+    <a th:href="@{/blogs}">
         Back to list
     </a>
 </p>
 
 <div id="form">
-    <form th:action="@{/blog/save}" th:object="${blogForm}"
+    <form th:action="@{/blogs/save}" th:object="${blogForm}"
           method="post" enctype="multipart/form-data">
         <table>
             <tr>

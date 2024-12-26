@@ -7,14 +7,14 @@
 <h2>Add New Blog</h2>
 
 <p>
-    <a th:href="@{/blog}">
+    <a th:href="@{/blogs}">
         Back to list
     </a>
 </p>
 
 <div id="form">
-    <form th:action="@{/blog/update}" th:object="${blog}"
-          method="post" enctype="multipart/form-data">
+    <form th:action="@{/blogs/update}" method="post" th:object="${blogForm}" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}" />
         <table>
             <tr>
                 <td><label for="title">Title: </label></td>
@@ -30,6 +30,10 @@
             </tr>
             <tr>
                 <td><label for="image">Blog Image: </label></td>
+                <td><img width="350" height="200" th:src="@{'/images/' + ${image}}" alt="Blog Image"></td>
+            </tr>
+            <tr>
+                <td><label for="image">Change Blog Image: </label></td>
                 <td><input type="file" id="image" th:field="*{imageFile}"/></td>
             </tr>
             <tr>

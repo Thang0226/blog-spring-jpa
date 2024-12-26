@@ -19,9 +19,10 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
-@RequestMapping("/blog")
+@RequestMapping("/blogs")
 public class BlogController {
     @Autowired
     private IBlogService blogService;
@@ -57,7 +58,7 @@ public class BlogController {
         blogService.save(blog);
 
         redirectAttributes.addFlashAttribute("message", "New blog added successfully");
-        return "redirect:/blog";
+        return "redirect:/blogs";
     }
 
     @GetMapping("/{id}/view")
@@ -70,7 +71,41 @@ public class BlogController {
     @GetMapping("/{id}/update")
     public String showUpdateForm(@PathVariable Long id, Model model) {
         Blog blog = blogService.findById(id);
-        model.addAttribute("blog", blog);
+        model.addAttribute("image", blog.getImageFile());
+        BlogForm blogForm = new BlogForm(id, blog.getTitle(), blog.getContent(), blog.getAuthor(),
+                null, blog.getTime().toString());
+        model.addAttribute("blogForm", blogForm);
         return "update";
+    }
+
+    @PostMapping("/update")
+    public String updateBlog(BlogForm blogForm, RedirectAttributes redirectAttributes) {
+        Blog blog = blogService.findById(blogForm.getId());
+        MultipartFile multipartFile = blogForm.getImageFile();
+        if (!Objects.requireNonNull(multipartFile.getOriginalFilename()).isEmpty()) {
+            String fileName = multipartFile.getOriginalFilename();
+            try {
+                FileCopyUtils.copy(blogForm.getImageFile().getBytes(), new File(folderPath + fileName));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                System.out.println(ex.getMessage());
+            }
+            blog.setImageFile(fileName);
+        }
+        blog.setTitle(blogForm.getTitle());
+        blog.setContent(blogForm.getContent());
+        blog.setAuthor(blogForm.getAuthor());
+        blog.setTime(LocalDateTime.now());
+        blogService.save(blog);
+
+        redirectAttributes.addFlashAttribute("message", "Blog updated successfully");
+        return "redirect:/blogs";
+    }
+
+    @GetMapping("/{id}/delete")
+    public String deleteBlog(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        blogService.remove(id);
+        redirectAttributes.addFlashAttribute("message", "Blog deleted");
+        return "redirect:/blogs";
     }
 }
