@@ -14,10 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -37,8 +34,13 @@ public class BlogController {
 
     @GetMapping
     public String listBlogs(@PageableDefault(size = 3, sort = "time", direction = Sort.Direction.ASC) Pageable pageable,
-                            Model model) {
-        Page<Blog> blogs = blogService.findAll(pageable);
+                            @RequestParam("search") Optional<String> search, Model model) {
+        Page<Blog> blogs;
+        if(search.isPresent()){
+            blogs = blogService.findByTitleContaining(pageable, search.get());
+        } else {
+            blogs = blogService.findAll(pageable);
+        }
         model.addAttribute("blogs", blogs);
         return "blog/list";
     }

@@ -20,6 +20,13 @@
     <span th:text="${message}"></span>
 </div>
 
+<div style="margin-bottom: 10px; margin-left: 110px">
+    <form th:action="@{/blogs}" method="get">
+        <label><input type="text" name="search"></label>
+        <button type="submit" class="btn btn-success">Search Blog by Titles</button>
+    </form>
+</div>
+
 <table id="list">
     <thead>
     <tr>
