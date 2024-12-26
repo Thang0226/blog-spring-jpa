@@ -26,6 +26,18 @@
         <button type="submit" class="btn btn-success">Search Blog by Titles</button>
     </form>
 </div>
+<br>
+
+<div>
+    <form th:action="@{/blogs}" method="get">
+        <label for="category">Choose Category</label>
+        <select name="category_id" id="category">
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select>
+        <button type="submit" class="btn btn-success">Apply Filter</button>
+    </form>
+</div>
+<br>
 
 <table id="list">
     <thead>

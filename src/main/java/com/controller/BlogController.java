@@ -34,14 +34,20 @@ public class BlogController {
 
     @GetMapping
     public String listBlogs(@PageableDefault(size = 3, sort = "time", direction = Sort.Direction.ASC) Pageable pageable,
-                            @RequestParam("search") Optional<String> search, Model model) {
+                            @RequestParam("search") Optional<String> search,
+                            @RequestParam("category_id") Optional<Long> cat_id, Model model) {
         Page<Blog> blogs;
         if(search.isPresent()){
             blogs = blogService.findByTitleContaining(pageable, search.get());
+        } else if (cat_id.isPresent()){
+            Long id = cat_id.get();
+            Optional<Category> category = categoryService.findById(id);
+            blogs = blogService.findByCategory(pageable, category.get());
         } else {
             blogs = blogService.findAll(pageable);
         }
         model.addAttribute("blogs", blogs);
+        model.addAttribute("categories", categoryService.findAll());
         return "blog/list";
     }
 
