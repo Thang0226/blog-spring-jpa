@@ -37,6 +37,16 @@
                 <td><input type="file" id="image" th:field="*{imageFile}"/></td>
             </tr>
             <tr>
+                <td>
+                    <label for="category">Category: </label>
+                </td>
+                <td>
+                    <select id="category" th:field="*{category_id}">
+                        <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <td></td>
                 <td><input type="submit" value="Save Blog"/></td>
             </tr>

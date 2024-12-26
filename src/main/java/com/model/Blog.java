@@ -23,13 +23,15 @@ public class Blog {
     public Blog() {
     }
 
-    public Blog(Long id, String title, String content, String author, String imageFile, LocalDateTime time) {
+    public Blog(Long id, String title, String content, String author, String imageFile,
+                LocalDateTime time, Category category) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.author = author;
         this.imageFile = imageFile;
         this.time = time;
+        this.category = category;
     }
 
     public Long getId() {
@@ -78,5 +80,13 @@ public class Blog {
 
     public void setTime(LocalDateTime time) {
         this.time = time;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

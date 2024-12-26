@@ -2,7 +2,9 @@ package com.controller;
 
 import com.model.Blog;
 import com.model.BlogForm;
+import com.model.Category;
 import com.service.IBlogService;
+import com.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,8 @@ import java.util.Optional;
 public class BlogController {
     @Autowired
     private IBlogService blogService;
+    @Autowired
+    private ICategoryService categoryService;
 
     @GetMapping
     public String listBlogs(Model model) {
@@ -37,6 +41,7 @@ public class BlogController {
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("blogForm", new BlogForm());
+        model.addAttribute("categories", categoryService.findAll());
         return "blog/create";
     }
 
@@ -45,6 +50,7 @@ public class BlogController {
 
     @PostMapping("/save")
     public String saveBlog(BlogForm blogForm, RedirectAttributes redirectAttributes) {
+        Optional<Category> category = categoryService.findById(blogForm.getCategory_id());
         MultipartFile multipartFile = blogForm.getImageFile();
         String fileName = multipartFile.getOriginalFilename();
         try {
@@ -54,7 +60,7 @@ public class BlogController {
             System.out.println(ex.getMessage());
         }
         Blog blog = new Blog(blogForm.getId(), blogForm.getTitle(), blogForm.getContent(), blogForm.getAuthor(),
-                fileName, LocalDateTime.now());
+                fileName, LocalDateTime.now(), category.get());
         blogService.save(blog);
 
         redirectAttributes.addFlashAttribute("message", "New blog added successfully");
@@ -74,8 +80,9 @@ public class BlogController {
         Blog blog = blogOptional.get();
         model.addAttribute("image", blog.getImageFile());
         BlogForm blogForm = new BlogForm(id, blog.getTitle(), blog.getContent(), blog.getAuthor(),
-                null, blog.getTime().toString());
+                null, blog.getTime().toString(), blog.getCategory().getId());
         model.addAttribute("blogForm", blogForm);
+        model.addAttribute("categories", categoryService.findAll());
         return "blog/update";
     }
 
@@ -98,6 +105,8 @@ public class BlogController {
         blog.setContent(blogForm.getContent());
         blog.setAuthor(blogForm.getAuthor());
         blog.setTime(LocalDateTime.now());
+        Optional<Category> category = categoryService.findById(blogForm.getCategory_id());
+        blog.setCategory(category.get());
         blogService.save(blog);
 
         redirectAttributes.addFlashAttribute("message", "Blog updated successfully");

@@ -11,17 +11,20 @@ public class BlogForm {
     private String author;
     private MultipartFile imageFile;
     private String time;
+    private Long category_id;
 
     public BlogForm() {
     }
 
-    public BlogForm(Long id, String title, String content, String author, MultipartFile imageFile, String time) {
+    public BlogForm(Long id, String title, String content, String author, MultipartFile imageFile,
+                    String time, Long category_id) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.author = author;
         this.imageFile = imageFile;
         this.time = time;
+        this.category_id = category_id;
     }
 
     public Long getId() {
@@ -70,5 +73,13 @@ public class BlogForm {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Long getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(Long category_id) {
+        this.category_id = category_id;
     }
 }

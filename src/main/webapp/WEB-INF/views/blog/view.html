@@ -18,6 +18,10 @@
         <td><input type="text" id="time" th:field="*{time}" disabled/></td>
     </tr>
     <tr>
+        <td><label for="category">Category: </label></td>
+        <td><span id="category" th:text="${blog.category.name}"></span></td>
+    </tr>
+    <tr>
         <td><label for="title">Title: </label></td>
         <td><input type="text" id="title" th:field="*{title}" disabled/></td>
     </tr>
