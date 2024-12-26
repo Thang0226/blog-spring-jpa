@@ -18,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -32,13 +31,13 @@ public class BlogController {
     public String listBlogs(Model model) {
         Iterable<Blog> blogs = blogService.findAll();
         model.addAttribute("blogs", blogs);
-        return "list";
+        return "blog/list";
     }
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("blogForm", new BlogForm());
-        return "create";
+        return "blog/create";
     }
 
     @Value("${file-upload}")
@@ -66,7 +65,7 @@ public class BlogController {
     public String showView(@PathVariable Long id, Model model) {
         Optional<Blog> blog = blogService.findById(id);
         model.addAttribute("blog", blog.get());
-        return "view";
+        return "blog/view";
     }
 
     @GetMapping("/{id}/update")
@@ -77,7 +76,7 @@ public class BlogController {
         BlogForm blogForm = new BlogForm(id, blog.getTitle(), blog.getContent(), blog.getAuthor(),
                 null, blog.getTime().toString());
         model.addAttribute("blogForm", blogForm);
-        return "update";
+        return "blog/update";
     }
 
     @PostMapping("/update")

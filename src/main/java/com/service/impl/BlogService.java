@@ -1,11 +1,11 @@
-package com.service;
+package com.service.impl;
 
 import com.model.Blog;
 import com.repository.IBlogRepository;
+import com.service.IBlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

@@ -16,6 +16,10 @@ public class Blog {
     private String imageFile;
     private LocalDateTime time;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     public Blog() {
     }
 
