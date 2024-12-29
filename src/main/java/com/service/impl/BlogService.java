@@ -50,4 +50,9 @@ public class BlogService implements IBlogService {
     public Page<Blog> findByCategory(Pageable pageable, Category cat) {
         return blogRepository.findByCategory(pageable, cat);
     }
+
+    @Override
+    public Iterable<Blog> findByCategory(Category category) {
+        return blogRepository.findByCategory(category);
+    }
 }
