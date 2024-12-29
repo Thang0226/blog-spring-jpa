@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,6 +47,24 @@ public class RESTBlogController {
         Iterable<Blog> blogsIterable = blogService.findByCategory(category);
         List<Blog> blogs = (List<Blog>) blogsIterable;
         return generateBlogDTOs(blogs);
+    }
+
+    @GetMapping("/{id}")
+    public BlogDTO getBlogById(@PathVariable Long id) {
+        Optional<Blog> blogOptional = blogService.findById(id);
+        if (!blogOptional.isPresent()) {
+            return null;
+        }
+        Blog blog = blogOptional.get();
+        BlogDTO blogDTO = new BlogDTO();
+        blogDTO.setId(id);
+        blogDTO.setTitle(blog.getTitle());
+        blogDTO.setContent(blog.getContent());
+        blogDTO.setAuthor(blog.getAuthor());
+        blogDTO.setImageFile(blog.getImageFile());
+        blogDTO.setTime(blog.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        blogDTO.setCategory(blog.getCategory().getName());
+        return blogDTO;
     }
 
     private List<BlogDTO> generateBlogDTOs(List<Blog> blogs) {
