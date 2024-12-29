@@ -6,6 +6,8 @@ import com.model.Category;
 import com.service.IBlogService;
 import com.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,14 +27,14 @@ public class RESTBlogController {
     private ICategoryService categoryService;
 
     @GetMapping
-    public List<BlogDTO> getAllBlogs() {
+    public ResponseEntity<List<BlogDTO>> getAllBlogs() {
         Iterable<Blog> blogsIterable = blogService.findAll();
         List<Blog> blogs = (List<Blog>) blogsIterable;
-        return generateBlogDTOs(blogs);
+        return new ResponseEntity<>(generateBlogDTOs(blogs), HttpStatus.OK);
     }
 
     @GetMapping("/category/{cat_name}")
-    public List<BlogDTO> getBlogsByCategory(@PathVariable String cat_name) {
+    public ResponseEntity<Iterable<BlogDTO>> getBlogsByCategory(@PathVariable String cat_name) {
         Iterable<Category> categories = categoryService.findAll();
         Category category = null;
         for (Category cat : categories) {
@@ -42,18 +44,18 @@ public class RESTBlogController {
             }
         }
         if (category == null) {
-            return null;
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         Iterable<Blog> blogsIterable = blogService.findByCategory(category);
         List<Blog> blogs = (List<Blog>) blogsIterable;
-        return generateBlogDTOs(blogs);
+        return new ResponseEntity<>(generateBlogDTOs(blogs), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public BlogDTO getBlogById(@PathVariable Long id) {
+    public ResponseEntity<BlogDTO> getBlogById(@PathVariable Long id) {
         Optional<Blog> blogOptional = blogService.findById(id);
         if (!blogOptional.isPresent()) {
-            return null;
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         Blog blog = blogOptional.get();
         BlogDTO blogDTO = new BlogDTO();
@@ -64,7 +66,7 @@ public class RESTBlogController {
         blogDTO.setImageFile(blog.getImageFile());
         blogDTO.setTime(blog.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         blogDTO.setCategory(blog.getCategory().getName());
-        return blogDTO;
+        return new ResponseEntity<>(blogDTO, HttpStatus.OK);
     }
 
     private List<BlogDTO> generateBlogDTOs(List<Blog> blogs) {
