@@ -34,6 +34,8 @@ dependencies {
 
   implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
 
+  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
+
   testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }

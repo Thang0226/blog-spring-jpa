@@ -1,29 +1,18 @@
 package com.model;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
-
-@Entity
-@Table(name = "blog")
-public class Blog {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BlogDTO {
     private Long id;
     private String title;
     private String content;
     private String author;
     private String imageFile;
-    private LocalDateTime time;
+    private String time;
+    private String category;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-
-    public Blog() {
+    public BlogDTO() {
     }
 
-    public Blog(Long id, String title, String content, String author, String imageFile,
-                LocalDateTime time, Category category) {
+    public BlogDTO(Long id, String title, String content, String author, String imageFile, String time, String category) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -73,19 +62,19 @@ public class Blog {
         this.imageFile = imageFile;
     }
 
-    public LocalDateTime getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 }

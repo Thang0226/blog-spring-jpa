@@ -33,7 +33,7 @@ public class BlogController {
     private ICategoryService categoryService;
 
     @GetMapping
-    public String listBlogs(@PageableDefault(size = 3, sort = "time", direction = Sort.Direction.ASC) Pageable pageable,
+    public String listBlogs(@PageableDefault(size = 2, sort = "time", direction = Sort.Direction.ASC) Pageable pageable,
                             @RequestParam("search") Optional<String> search,
                             @RequestParam("category_id") Optional<Long> cat_id, Model model) {
         Page<Blog> blogs;
