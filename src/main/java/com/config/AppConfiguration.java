@@ -121,11 +121,15 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     // Config files location by new reference path for server to get the file (hide true location)
     @Value("${file-upload}")
     private String folderPath;
+    @Value("${js-file}")
+    private String jsFilePath;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:" + folderPath);
+        registry.addResourceHandler("/index.js")
+                .addResourceLocations("file:" + jsFilePath);
     }
 
     // Config CommonsMultipartResolver for MultipartFile to get the file

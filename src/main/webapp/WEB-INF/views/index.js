@@ -25,17 +25,17 @@ function showBlogs(results) {
     for (let i = 0; i < results.length; i++) {
         display += `<tr>
         <td>${results[i].time}</td>
-        <td><a th:href="@{/blogs/{id}/view(id=${results[i].id})}">${results[i].title}</a></td>
+        <td><a href="/blogs/${results[i].id}/view">${results[i].title}</a></td>
         <td>${results[i].author}</td>
         <td>
-            <img width="150" height="100" th:src="@{'/images/' + ${results[i].imageFile}}" alt="Blog Image">
+            <img width="150" height="100" src="/images/${results[i].imageFile}" alt="Blog Image">
         </td>
         <td>
-            <a th:href="@{/blogs/{id}/update(id=${results[i].id})}">Update</a>
-            <a th:href="@{/blogs/{id}/delete(id=${results[i].id})}">Delete</a>
+            <a href="/blogs/${results[i].id}/update">Update</a>
+            <a href="/blogs/${results[i].id}/delete">Delete</a>
         </td>
     </tr>`
     }
-    display += `</tbody></table>`;
+    display += `</tbody>`;
     table.html(display);
 }

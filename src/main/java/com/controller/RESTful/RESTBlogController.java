@@ -77,6 +77,9 @@ public class RESTBlogController {
 
     @GetMapping("/search/{text}")
     public ResponseEntity<List<BlogDTO>> searchBlogs(@PathVariable String text) {
+        if (text == null || text.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         Iterable<Blog> blogsIterable = blogService.findByTitleContaining(text);
         List<Blog> blogs = (List<Blog>) blogsIterable;
         return new ResponseEntity<>(generateBlogDTOs(blogs), HttpStatus.OK);
