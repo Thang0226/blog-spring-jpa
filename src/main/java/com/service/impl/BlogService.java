@@ -55,4 +55,9 @@ public class BlogService implements IBlogService {
     public Iterable<Blog> findByCategory(Category category) {
         return blogRepository.findByCategory(category);
     }
+
+    @Override
+    public Iterable<Blog> findByTitleContaining(String searchText) {
+        return blogRepository.findByTitleContaining(searchText);
+    }
 }

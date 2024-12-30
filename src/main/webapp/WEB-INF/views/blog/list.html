@@ -3,6 +3,7 @@
 
 <head th:replace="~{layout :: head}">
     <title>List</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 </head>
 
 <body>
@@ -21,9 +22,13 @@
 </div>
 
 <div style="margin-bottom: 10px; margin-left: 110px">
-    <form th:action="@{/blogs}" method="get">
-        <label><input type="text" name="search"></label>
-        <button type="submit" class="btn btn-success">Search Blog by Titles</button>
+<!--    <form th:action="@{/blogs}" method="get">-->
+<!--        <label><input type="text" name="search"></label>-->
+<!--        <button type="submit" class="btn btn-success">Search Blog by Titles</button>-->
+<!--    </form>-->
+    <form>
+        <label><input type="text" name="search" id="search-input"></label>
+        <button type="button" class="btn btn-success" onclick="searchTitle()">Search Blog by Titles</button>
     </form>
 </div>
 <br>
@@ -76,5 +81,7 @@
    th:href="@{/blogs(page=${blogs.number + 1})}">Next</a>
 
 <div th:insert="~{/layout :: footer}"></div>
+
+<script th:src="@{/index.js}"></script>
 </body>
 </html>

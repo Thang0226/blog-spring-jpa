@@ -74,4 +74,11 @@ public class RESTBlogController {
                 blog.getAuthor(), blog.getImageFile(), blog.getTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
                 blog.getCategory() != null ? blog.getCategory().getName() : null)).collect(Collectors.toList());
     }
+
+    @GetMapping("/search/{text}")
+    public ResponseEntity<List<BlogDTO>> searchBlogs(@PathVariable String text) {
+        Iterable<Blog> blogsIterable = blogService.findByTitleContaining(text);
+        List<Blog> blogs = (List<Blog>) blogsIterable;
+        return new ResponseEntity<>(generateBlogDTOs(blogs), HttpStatus.OK);
+    }
 }
