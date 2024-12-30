@@ -1,10 +1,16 @@
+let searchResults;
+let page;
+let itemsPerPage = 2;
+
 function searchTitle() {
     event.preventDefault();
     let words = $("#search-input").val();
+    page = 0;
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/blogs/search/" + words,
         success: function (results) {
+            searchResults = results;
             showBlogs(results);
         }
     })
@@ -22,7 +28,10 @@ function showBlogs(results) {
     </tr>
     </thead>
     <tbody>`;
-    for (let i = 0; i < results.length; i++) {
+    let lastIndex = results.length - 1;
+    let startIndex = page * itemsPerPage;
+    let endIndex = (lastIndex > ((page+1) * itemsPerPage - 1)) ? ((page+1) * itemsPerPage - 1) : lastIndex;
+    for (let i = startIndex; i <= endIndex; i++) {
         display += `<tr>
         <td>${results[i].time}</td>
         <td><a href="/blogs/${results[i].id}/view">${results[i].title}</a></td>
@@ -38,4 +47,12 @@ function showBlogs(results) {
     }
     display += `</tbody>`;
     table.html(display);
+}
+
+function moreSearchResults() {
+    event.preventDefault();
+    if (page < Math.floor(searchResults.length / itemsPerPage)) {
+        page++;
+    }
+    showBlogs(searchResults);
 }
