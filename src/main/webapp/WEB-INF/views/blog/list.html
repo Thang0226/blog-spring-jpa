@@ -6,14 +6,19 @@
 </head>
 
 <body>
-<h2>Blog List</h2>
+<h2 th:text="#{blog.list}">Blog List</h2>
 
 <p style="margin-left: 5px">
-    <a th:href="@{/categories}"> Categories </a>
+    <a th:href="@{/categories}" th:text="#{blog.categories}"> Categories </a>
+</p>
+
+<p style="text-align: right; margin-right: 5px">
+    <a href="?lang=en">ENG</a>
+    <a href="?lang=vi">VI</a>
 </p>
 
 <p style="margin-left: 5px">
-    <a th:href="@{/blogs/create}"> Add new blog </a>
+    <a th:href="@{/blogs/create}" th:text="#{blog.create}"> Add new blog </a>
 </p>
 
 <div th:if="${message}" class="notify">
@@ -27,23 +32,23 @@
 <!--    </form>-->
     <form>
         <label><input type="text" name="search" id="search-input"></label>
-        <button type="button" class="btn btn-success" onclick="searchTitle()">Search Blog by Titles</button>
-        <button class="btn btn-success" onclick="moreSearchResults()">Load more</button>
+        <button type="button" class="btn btn-success" onclick="searchTitle()" th:text="#{blog.search}">Search Blog by Titles</button>
+        <button class="btn btn-success" onclick="moreSearchResults()" th:text="#{blog.load}">Load more</button>
     </form>
 </div>
 <br>
 
 <p>
-    <a th:href="@{/blogs}">Show all blogs</a>
+    <a th:href="@{/blogs}" th:text="#{blog.show}">Show all blogs</a>
 </p>
 
 <div>
     <form th:action="@{/blogs}" method="get">
-        <label for="category">Choose Category</label>
+        <label for="category" th:text="#{blog.category}">Choose Category</label>
         <select name="category_id" id="category">
             <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
         </select>
-        <button type="submit" class="btn btn-success">Apply Filter</button>
+        <button type="submit" class="btn btn-success" th:text="#{blog.filter}">Apply Filter</button>
     </form>
 </div>
 <br>
@@ -51,11 +56,11 @@
 <table id="list">
     <thead>
     <tr>
-        <th>Time</th>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Image</th>
-        <th>Actions</th>
+        <th th:text="#{blog.time}">Time</th>
+        <th th:text="#{blog.title}">Title</th>
+        <th th:text="#{blog.author}">Author</th>
+        <th th:text="#{blog.image}">Image</th>
+        <th th:text="#{blog.actions}">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -67,18 +72,18 @@
             <img width="150" height="100" th:src="@{'/images/' + ${row.imageFile}}" alt="Blog Image">
         </td>
         <td>
-            <a th:href="@{/blogs/{id}/update(id=${row.id})}">Update</a>
-            <a th:href="@{/blogs/{id}/delete(id=${row.id})}">Delete</a>
+            <a th:href="@{/blogs/{id}/update(id=${row.id})}" th:text="#{blog.update}">Update</a>
+            <a th:href="@{/blogs/{id}/delete(id=${row.id})}" th:text="#{blog.delete}">Delete</a>
         </td>
     </tr>
     </tbody>
 </table>
 
 <a class="btn btn-primary" th:if="${blogs.hasPrevious()}"
-   th:href="@{/blogs(page=${blogs.number - 1})}">Previous</a>
+   th:href="@{/blogs(page=${blogs.number - 1})}" th:text="#{blog.previous}">Previous</a>
 <span th:text="${blogs.number + 1}"></span> | <span th:text="${blogs.totalPages}"></span>
 <a class="btn btn-primary" th:if="${blogs.hasNext()}"
-   th:href="@{/blogs(page=${blogs.number + 1})}">Next</a>
+   th:href="@{/blogs(page=${blogs.number + 1})}" th:text="#{blog.next}">Next</a>
 
 <div th:insert="~{/layout :: footer}"></div>
 

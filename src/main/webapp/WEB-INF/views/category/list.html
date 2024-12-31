@@ -6,14 +6,14 @@
 </head>
 
 <body>
-<h2>Category List</h2>
+<h2 th:text="#{category.title}">Category List</h2>
 
 <p style="margin-left: 5px">
-    <a th:href="@{/blogs}"> Back to Blog List </a>
+    <a th:href="@{/blogs}" th:text="#{category.blogs}"> Back to Blog List </a>
 </p>
 
 <p style="margin-left: 5px">
-    <a th:href="@{/categories/create}"> Add new category </a>
+    <a th:href="@{/categories/create}" th:text="#{category.create}"> Add new category </a>
 </p>
 
 <div th:if="${message}" class="notify">
@@ -23,9 +23,9 @@
 <table id="list">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Actions</th>
+        <th th:text="#{category.id}">ID</th>
+        <th th:text="#{category.name}">Name</th>
+        <th th:text="#{category.actions}">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -33,8 +33,8 @@
         <td th:text="${row.id}"></td>
         <td><a th:href="@{/categories/{id}/view(id=${row.id})}" th:text="${row.name}"></a></td>
         <td>
-            <a th:href="@{/categories/{id}/update(id=${row.id})}">Update</a>
-            <a th:href="@{/categories/{id}/delete(id=${row.id})}">Delete</a>
+            <a th:href="@{/categories/{id}/update(id=${row.id})}" th:text="#{category.update}">Update</a>
+            <a th:href="@{/categories/{id}/delete(id=${row.id})}" th:text="#{category.delete}">Delete</a>
         </td>
     </tr>
     </tbody>
